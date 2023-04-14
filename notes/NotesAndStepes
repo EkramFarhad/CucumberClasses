@@ -1,0 +1,140 @@
+
+Ekram Farhad: Cucumber frameWork Steps
+
+  CLASS 1
+  ------------------------------------------------------------------------------------------
+1- add dependency files to the pom folder.
+2- create resource folder inside test folder.
+   A. create feature folder inside resource folder
+   B. create a class with extensions of (X.feature) inside the feature folder.
+   C. Then inside the X.feature class type these steps: (***)
+                                                            Feature: Login Functionalities
+                                                            @testcase1
+                                                            Scenario: Valid Admin login
+                                                            Given open the browser and launch HRMS application
+                                                            When  user enters valid email and valid Password
+                                                            And click on login button
+                                                            Then user is logged in successfully
+                                                            And Close the browser
+                                                        (***)
+3- create StepDefinition folder inside java folder.
+   A. create X class inside stepDefinition folder
+
+4- create TestRunner folder inside java folder
+   A. create test class inside TestRunner folder.
+   B. add these steps into your TestRunner Class: (***)
+
+                                                  @RunWith(Cucumber.class)
+                                                  @CucumberOptions(features = "src/test/resources/Features",
+                                                          glue = "StepDefinitions",
+                                                          dryRun = false,
+                                                          tags = "@testcase1")
+                                                  public class SmokeRunner {
+                                                  }
+
+                                                  (***)
+
+5- Run the testRunner class and copy paste the cases into the stepDefinition class.
+   A. find the elements location to all your test scenario.
+
+  CLASS 2
+  ------------------------------------------------------------------------------------------
+
+6- Create Util folder inside the java folder.
+   A. create a commonMethod class inside the Util folder.
+   B. create openBrowser method inside commonMethod class.
+   C. Extend commonMethod class to the login class.
+   D. cut browser files from login class and paste it inside openBrowser method.
+   E. call the openBrowser method to the login class.
+   F. don't forget to make WebDriver global to the CommonMethod class.
+
+7- Create closeDriver method into commonMethods class.
+   A. you can add Thread.sleep(2000);
+   B. driver.close();
+   C. call closeDriver method with the login class.
+
+8- Create Constants class inside the Util folder.
+   A. inside the constants class type: public static final int WAIT_TIME = 1000;
+   B. inside the openBrowser method in commonMethod class type: (***)
+                                                 driver.manage().timeouts().
+                                                 implicitlyWait(Duration.ofMillis(Constants.WAIT_TIME));
+                                                                (***)
+9- Create Config folder inside the resources folder.
+   A. create config.properties file inside Config folder.
+   B. These are the steps for now: (***)
+                                  browserType=Chrome
+                                  url=http://hrm.syntaxtechs.net/humanresources/symfony/web/index.php/auth/login
+                                  userName=admin
+                                  password=Hum@nhrm123
+                                    (***)
+10- Create ConfigReader class inside the Util folder.
+    A. create readeProperties method inside the ConfigReader class.
+    B. call object of FileStream file = new FileStream ("")
+    C. inside the curly braces copy the path of config.properties file.
+    D. surround it with tryCatch block.
+    E. inside try block create properties class to load the file. like Properties prop = new Properties();
+    F. make Properties prop  static global.
+    G. prop.load to load the file.
+    H. change the void method to the Properties
+    I. return the variable prop.
+
+11- create string method inside the ConfigReader class.
+    A. give it string parameter.
+    B. return global prop.getProperty and parameter name. like: return prop.getProperty(parameterName);
+    C. call ConfigReader.readProperties(); to the CommonMethod class inside openBrowser method.
+    D. make string browser and call configReader class and getProperty method.
+       like:  String browserType = ConfigReader.getPropertyValue("browserType");
+
+12- remove hard coded link from commonMethod and just type "url";
+    A. driver.get(ConfigReader.getPropertyValue("url"));
+13- in login class username and password are hardcode they need to be fixed.
+    A. remove Admin and use .sendKey(ConfigReader.getPropertyValue("username");
+    B. remove password and use .sendKey(ConfigReader.getPropertyValue("password");
+
+14- inside the constants class.
+    A. write public static final String PROPERTY_FILE_PATH = and copy the path from FileStream object
+    the copy file should be fro src until .properties
+    like: public static final String PROPERTY_FILE_PATH = System.getProperty("user.dir") + "/src/test/resources/Config/config.properties";
+    B. in configReader class remove the path from FileStream and just write (Constance.PROPERTY_FILE_PATH);
+
+    CLASS 3
+      ------------------------------------------------------------------------------------------
+15- what is Tagging? it is and option to allow you to run or not run a scenario.
+    A. Use @ with any keyword on feature class above the scenario.
+    B. On the runner class add  tag option and inside the (tags = " @keyword" ) use the keyword that was before.
+    C. you can use more than one tag and add or inside Ex: @tags = "keyword1" or @tags = "keyword2"
+    Note: if you want to execute 50 test case out of 100 just name those 50 case the same tag.
+16-
+
+
+  Class 4
+  -----------------------------------------------------------------------------------------------
+  #HOOKS: For defining pre and Post steps in any Cucumber framework
+      #     : This is always created inside the StepDefinitions folder
+      #     : Hooks will take care of pre and post conditions irrespective
+      #     : of what goes in between the test steps
+
+      #BACKGROUND: Its the clubbing of common steps in different scenarios of a feature file
+     #             till flow is not broken
+     #1. Hard Code
+     #2. Config file
+     #-----------------Cucumber itself provides multiple option through which we can feed data from
+     # feature file into Step Definition---------------------------------------------
+     #3. Regular Expressions
+         # put the data in double quotes [""]
+     #4. Scenario Outline
+         # Provides you an alternative to Data driven testing
+         # Also supports parametrization
+    #===================================PARAMETERIZATION================================
+    # Executing the same test case with multiple data
+
+
+    #If you want to use parameterization
+  #If you wish to implement data driven testing
+    # Scenario Outline is always used along with the keyword 'Examples'
+  #If you want to use parameterization
+  #If you wish to implement data driven testing
+    # Scenario Outline is always used along with the keyword 'Examples'
+  #If you want to use parameterization
+  #If you wish to implement data driven testing
+    # Scenario Outline is always used along with the keyword 'Examples'
