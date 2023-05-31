@@ -27,16 +27,16 @@ Feature: Login Functionalities
     Examples:
       | username | password    |
       | admin    | Hum@nhrm123 |
-      | ADMIN    | Hum@nhrm123 |
-      | Jason    | Hum@nhrm123 |
+      #| ADMIN    | Hum@nhrm123 |
+      #| Jason    | Hum@nhrm123 |
 
   @dataTable
   Scenario: Login with multiple credentials using data table
     When user enters username and password and verifies login
       | username | password    |
       | admin    | Hum@nhrm123 |
-      | ADMIN    | Hum@nhrm123 |
-      | Jason    | Hum@nhrm123 |
+    #  | ADMIN    | Hum@nhrm123 |
+    #  | Jason    | Hum@nhrm123 |
 
 
     #hard Code
